@@ -2,3 +2,7 @@
 .button-right{
     margin-left: auto;
 }
+
+app-footer {
+    max-height: auto;
+}

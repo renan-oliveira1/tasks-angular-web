@@ -1,13 +1,13 @@
 
 <app-nav></app-nav>
-<div class="container has-text-centered">
+<div class="container has-text-centered mt-2">
     <h1 class="title">Boards</h1>
 </div>
 
-<div class="container mt-5 main">
+<div class="container mt-5 mb-5 main">
     <div class="columns">
         <div class="column is-2"></div>
-        <div class="column is-4">
+        <div class="column is-3">
             <form [formGroup]="boardForm" (submit)="submit()">
                 <div class="field">
                     <div class="control">
@@ -21,7 +21,7 @@
                 </div>
             </form>
         </div>
-        <div class="column is-4">
+        <div class="column is-5">
             <div class="box content" *ngFor="let board of boards" (click)="viewBoard(board.id)">
                 <article class="post has-text-centered">
                     <h4>{{board.name}}</h4>

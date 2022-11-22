@@ -73,4 +73,8 @@ export class BoardComponent implements OnInit {
     this.router.navigate([url])
   }
 
+  backPage(){
+    const url = 'boards'
+    this.router.navigate([url])
+  }
 }

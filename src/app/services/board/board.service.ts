@@ -35,8 +35,12 @@ export class BoardService {
     return this.http.patch(fullUrl, json)
   }
 
-  deleteUser(idUser: string){
-    const fullUrl = this.baseUrl + '/' + idUser
-    return this.http.delete(fullUrl)
+  deleteUser(idBoard: string, idUser: string){
+    const json = {
+      idBoard: idBoard,
+      idUser: idUser
+    }
+    const fullUrl = this.baseUrl + '/remove-user'
+    return this.http.patch(fullUrl, json)
   }
 }

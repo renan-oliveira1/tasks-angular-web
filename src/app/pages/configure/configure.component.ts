@@ -61,14 +61,26 @@ export class ConfigureComponent implements OnInit {
   }
 
   addUserBoard(idUser: string){
-    this.boardService.addUser(this.idBoard, idUser).subscribe({
-      next: () => {this.ngOnInit()},
-      error: () => {toast({ message: 'Erro ao adicionar usuario!!', type: 'is-danger' })}
+    this.boardService
+      .addUser(this.idBoard, idUser)
+      .subscribe({
+        next: () => {this.ngOnInit()},
+        error: () => {toast({ message: 'Erro ao adicionar usuario!!', type: 'is-danger' })}
     })
   }
 
   removeUser(idUser: string){
+    this.boardService
+      .deleteUser(this.idBoard, idUser)
+      .subscribe({
+        next: () => {this.ngOnInit()},
+        error: () => {toast({ message: 'Erro ao remover usuario!!', type: 'is-danger' })}
+      })
+  }
 
+  backPage(){
+    const url = 'board/' + this.idBoard 
+    this.router.navigate([url])
   }
 
 }
