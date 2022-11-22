@@ -39,16 +39,16 @@
                 <div *ngFor="let task of board.tasks">
                     <div class="message-body has-align-centered" *ngIf="!task.complete">
                         <div class="box is-flex is-align-items-center">
-                            <div (click)="toggleModal()" class="mouseChange">
+                            <div (click)="toggleModal(task)" class="mouseChange">
                                 <p>{{task.name}}</p>
-                                <div class="modal" [ngClass]="{ 'is-active' : isModalActive }">
+                                <div class="modal" [ngClass]="{ 'is-active' : isModalActive }" *ngIf="selectedTask">
                                     <div class="modal-background"></div>
                                     <div class="modal-card">
                                       <header class="modal-card-head has-background-warning">
-                                        <h4 class="modal-card-title">{{ task.name }}</h4>
+                                        <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
                                       </header>
                                       <section class="modal-card-body">
-                                        {{ task.description }}
+                                        {{ selectedTask.description }}
                                       </section>
                                       <footer class="modal-card-foot has-background-warning"></footer>
                                     </div>
@@ -69,16 +69,16 @@
                 <div *ngFor="let task of board.tasks">
                     <div class="message-body has-align-centered" *ngIf="task.complete">
                         <div class="box is-flex is-align-items-center" *ngIf="task.complete">
-                            <div (click)="toggleModalDone()" class="mouseChange">
+                            <div (click)="toggleModalDone(task)" class="mouseChange" >
                                 <p>{{task.name}}</p>
-                                <div class="modal" [ngClass]="{ 'is-active' : isModalDoneActive }">
+                                <div class="modal" [ngClass]="{ 'is-active' : isModalDoneActive }" *ngIf="selectedDoneTask">
                                     <div class="modal-background"></div>
                                     <div class="modal-card">
                                       <header class="modal-card-head has-background-success">
-                                        <h4 class="modal-card-title">{{ task.name }}</h4>
+                                        <h4 class="modal-card-title">{{ selectedDoneTask.name }}</h4>
                                       </header>
                                       <section class="modal-card-body">
-                                        {{ task.description }}
+                                        {{ selectedDoneTask.description }}
                                       </section>
                                       <footer class="modal-card-foot has-background-success"></footer>
                                     </div>

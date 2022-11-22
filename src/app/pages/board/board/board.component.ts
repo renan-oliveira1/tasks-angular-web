@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'bulma-toast';
@@ -18,6 +18,9 @@ export class BoardComponent implements OnInit {
   taskForm: FormGroup
   isModalActive: boolean = false;
   isModalDoneActive: boolean = false;
+  selectedDoneTask: Task
+  selectedTask: Task
+
 
   constructor(
     private boardService: BoardService,
@@ -94,12 +97,14 @@ export class BoardComponent implements OnInit {
     })
   }
 
-  toggleModal(){
+  toggleModal(task: Task){
     this.isModalActive = !this.isModalActive
+    this.selectedTask = task
   }
 
-  toggleModalDone(){
+  toggleModalDone(task: Task){
     this.isModalDoneActive = !this.isModalDoneActive
+    this.selectedDoneTask = task
   }
   
 }
