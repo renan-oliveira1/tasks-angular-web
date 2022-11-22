@@ -16,6 +16,8 @@ export class BoardComponent implements OnInit {
   idFromUrl: string
   board: Board
   taskForm: FormGroup
+  isModalActive: boolean = false;
+  isModalDoneActive: boolean = false;
 
   constructor(
     private boardService: BoardService,
@@ -91,4 +93,13 @@ export class BoardComponent implements OnInit {
       error: () => {toast({ message: 'Erro ao desfazer tarefa!!', type: 'is-danger' })}
     })
   }
+
+  toggleModal(){
+    this.isModalActive = !this.isModalActive
+  }
+
+  toggleModalDone(){
+    this.isModalDoneActive = !this.isModalDoneActive
+  }
+  
 }

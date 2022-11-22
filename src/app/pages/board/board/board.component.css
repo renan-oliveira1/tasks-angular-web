@@ -15,3 +15,7 @@ app-footer {
 .checkbox-right{
     margin-left: auto;
 }
+
+.mouseChange{
+    cursor: help;
+}
