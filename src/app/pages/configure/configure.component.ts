@@ -25,6 +25,7 @@ export class ConfigureComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadBoard()
+    
   }
 
   loadBoard(){
@@ -39,6 +40,7 @@ export class ConfigureComponent implements OnInit {
   }
 
   loadUsers(){
+    console.log(this.board.users.length)
     this.userService.getUsers().subscribe({
       next: (response) => { this.filterUsersNotInBoard(response)},
       error: () => {toast({ message: 'Erro ao carregar usuarios do servidor!!', type: 'is-danger' })}

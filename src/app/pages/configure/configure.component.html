@@ -1,7 +1,9 @@
 <app-nav></app-nav>
-<div class="container mt-5 mb-5 main">
+<div class="container mt-3" *ngIf="board">
     <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
-    <h3 class="title is-3 mt-2 has-text-centered">{{board.name}}</h3>
+    <h1 class="title has-text-centered ">Configure - {{board.name}}</h1>
+</div>
+<div class="container mt-5 mb-5 main" *ngIf="board">
     <div class="columns is-multiline is-centered">
 
 
@@ -11,8 +13,8 @@
                 <div *ngFor="let user of board.users">
                     <div class="message-body">
                         <div class="box is-flex is-align-items-center">
-                            <p>{{user.username}} ({{user.email}})</p>   
-                            <button class="button is-danger button-right" (click)="removeUser(user.id)">Remover</button>
+                            <p>{{user.username}} ({{user.email}})</p>
+                            <button *ngIf="board.users.length > 1" class="button is-danger button-right" (click)="removeUser(user.id)">Remover</button>
                         </div>
                     </div>
                 </div>

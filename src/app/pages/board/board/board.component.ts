@@ -77,4 +77,18 @@ export class BoardComponent implements OnInit {
     const url = 'boards'
     this.router.navigate([url])
   }
+
+  completeTask(id: string){
+    this.taskService.updateStatus(id, true).subscribe({
+      next: () => {this.ngOnInit()},
+      error: () => {toast({ message: 'Erro ao completar tarefa!!', type: 'is-danger' })}
+    })
+  }
+
+  undoTask(id: string){
+    this.taskService.updateStatus(id, false).subscribe({
+      next: () => {this.ngOnInit()},
+      error: () => {toast({ message: 'Erro ao desfazer tarefa!!', type: 'is-danger' })}
+    })
+  }
 }

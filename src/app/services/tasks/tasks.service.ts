@@ -19,4 +19,13 @@ export class TasksService {
 
     return this.http.post<Task>(this.baseUrl, sendJson)
   }
+
+  updateStatus(id: string, complete: boolean){
+    const json = {
+      id: id,
+      complete: complete
+    }
+
+    return this.http.patch(this.baseUrl, json)
+  }
 }

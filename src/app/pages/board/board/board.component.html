@@ -1,7 +1,73 @@
 <app-nav></app-nav>
+<div class="container mt-3" *ngIf="board">
+    <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
+    <h1 class="title has-text-centered ">Board - {{board.name}}</h1>
+</div>
 
 <div class="container mt-5 mb-5 main">
-    <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
+
+    <div class="columns" *ngIf="board">
+        <div class="column is-3">
+            <div class="box">
+                <h4 class="title is-4 mt-2 has-text-centered">Adicionar tarefa</h4>
+                <form [formGroup]="taskForm" (submit)="submit()">
+                    <div class="field">
+                        <div class="control">
+                        <input class="input is-rounded" type="text" placeholder="Trabalho TC2" formControlName="name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Descrição" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="field has-text-centered mt-5">
+                        <div class="control">
+                            <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button class="button is-rounded has-text-white" (click)="configureBoard()">
+                Configurar Board
+            </button>
+        </div>
+
+        <div class="column">
+            <article class="message is-warning">
+                <div class="message-header ">A FAZER</div>
+                <div *ngFor="let task of board.tasks">
+                    <div class="message-body has-align-centered" *ngIf="!task.complete">
+                        <div class="box is-flex is-align-items-center">
+                            <p>{{task.name}}</p>
+                            <div class="field checkbox-right">
+                                <input type="checkbox" (click)="completeTask(task.id)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="column">
+            <article class="message is-success">
+                <div class="message-header">COMPLETOS</div>
+                <div *ngFor="let task of board.tasks">
+                    <div class="message-body has-align-centered" *ngIf="task.complete">
+                        <div class="box is-flex is-align-items-center" *ngIf="task.complete">
+                            <p>{{task.name}}</p>
+                            <div class="field checkbox-right">
+                                <input type="checkbox" (click)="undoTask(task.id)" checked>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+    </div>
+
+    <!-- <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
     <h3 class="title is-3 mt-2 has-text-centered">{{board.name}}</h3>
     <div class="columns is-multiline is-centered">
         <div class=" column is-3">
@@ -55,7 +121,7 @@
                 </div>
             </article>
         </div>
-    </div>
+    </div> -->
 </div>
 
 
