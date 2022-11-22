@@ -15,11 +15,18 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private service: AuthService
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
+    this.verifyIfLogged()
     this.initRegisterForm()
+  }
+
+  verifyIfLogged(){
+    if(this.authService.isLoggedIn()){
+      this.router.navigate(['boards'])
+    }
   }
 
   initRegisterForm(){
@@ -35,7 +42,7 @@ export class RegisterComponent implements OnInit {
       const username = this.registerForm.get('username').value
       const email = this.registerForm.get('email').value
       const password = this.registerForm.get('password').value
-      this.service.register(username, email, password).subscribe({
+      this.authService.register(username, email, password).subscribe({
         next: (response) => this.doLogin(),
         error: (error) => toast({ message: 'Preencha os campos válidos!!\n' + error.error.message, type: 'is-danger' })
       })
@@ -48,7 +55,7 @@ export class RegisterComponent implements OnInit {
 
   doLogin(){
     toast({ message: 'Preencha os campos válidos!!', type: 'is-success' })
-    this.router.navigate(['tasks'])
+    this.router.navigate(['boards'])
   }
 
   backLoginPage(){

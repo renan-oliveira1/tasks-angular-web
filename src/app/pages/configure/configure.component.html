@@ -1,0 +1,59 @@
+<app-nav></app-nav>
+<section class="container hero" *ngIf="board">
+    <div class="hero-body is-fullheight">
+        
+        <h3 class="title is-3 mt-2">{{board.name}}</h3>
+        <div class="columns is-multiline is-centered">
+            <!-- <div class="box column is-3">
+                <h4 class="title is-4 mt-2">Adicionar tarefa</h4>
+                <form [formGroup]="taskForm" (submit)="submit()">
+                    <div class="field">
+                        <div class="control">
+                          <input class="input is-rounded" type="text" placeholder="Trabalho TC2" formControlName="name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Descrição" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="field has-text-centered mt-5">
+                        <div class="control">
+                          <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
+                        </div>
+                    </div>
+                </form>
+            </div> -->
+    
+    
+            <div class="column">
+                <article class="message is-info">
+                    <div class="message-header ">Usuarios do Board</div>
+                    <div *ngFor="let user of board.users">
+                        <div class="message-body">
+                            <div class="box is-flex is-align-items-center">
+                                <p>{{user.username}} ({{user.email}})</p>   
+                                <button class="button is-danger button-right">Remover</button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="column">
+                <article class="message is-dark">
+                    <div class="message-header">Usuarios</div>
+                    <div *ngFor="let user of usersNotInBoard">
+                        <div class="message-body has-align-centered">
+                            <div class="box is-flex is-align-items-center">
+                                {{user.username}} ({{user.email}})                            
+                                <button class="button is-link button-right" (click)="addUserBoard(user.id)">Adicionar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- //<app-footer></app-footer> -->

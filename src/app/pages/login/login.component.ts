@@ -15,11 +15,18 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private service: AuthService
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.initLoginForm()
+    this.verifyIfLogged()
+  }
+
+  verifyIfLogged(){
+    if(this.authService.isLoggedIn()){
+      this.router.navigate(['boards'])
+    }
   }
 
   initLoginForm(){
@@ -34,7 +41,7 @@ export class LoginComponent implements OnInit {
       const email = this.loginForm.get('email').value
       const password = this.loginForm.get('password').value
 
-      this.service.login(email, password).subscribe({
+      this.authService.login(email, password).subscribe({
         next: (response) => this.doLogin(),
         error: (error) => toast({ message: 'Erro ao efetuar login!!\n' + error.error, type: 'is-danger' })
       })
@@ -45,7 +52,7 @@ export class LoginComponent implements OnInit {
 
   doLogin(){
     toast({ message: 'Login feito com sucesso!!', type: 'is-success' })
-    this.router.navigate(['tasks'])
+    this.router.navigate(['boards'])
   }
 
 }

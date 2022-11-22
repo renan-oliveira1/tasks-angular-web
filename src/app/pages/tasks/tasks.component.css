@@ -1,0 +1,9 @@
+.main {
+    display: flex;
+    min-height: 55vh;
+    flex-direction: column;
+}
+
+app-footer {
+    max-height: auto;
+} 

@@ -12,6 +12,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TasksComponent } from './pages/tasks/tasks.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { LoginInterceptor } from './services/interceptors/login.interceptor';
+import { BoardComponent } from './pages/board/board/board.component';
+import { ConfigureComponent } from './pages/configure/configure.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { LoginInterceptor } from './services/interceptors/login.interceptor';
     NavComponent,
     FooterComponent,
     TasksComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    BoardComponent,
+    ConfigureComponent
   ],
   imports: [
     BrowserModule,

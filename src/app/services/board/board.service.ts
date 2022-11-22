@@ -1,0 +1,42 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Board } from 'src/app/interfaces/Board';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BoardService {
+
+  private baseUrl = 'http://localhost:3000/boards'
+
+  constructor(private http: HttpClient) { }
+
+  getBoards(){
+    return this.http.get<Board[]>(this.baseUrl)
+  }
+
+  getBoard(id: string){
+    const fullUrl = this.baseUrl + '/' + id
+    return this.http.get<Board>(fullUrl)
+  }
+
+  registerBoard(name: string){
+    return this.http.post(this.baseUrl, {name})
+  }
+
+  addUser(idBoard: string, idUser: string){
+    const json = {
+      idBoard: idBoard,
+      idUser: idUser
+    }
+
+    const fullUrl = this.baseUrl + '/add-user'
+
+    return this.http.patch(fullUrl, json)
+  }
+
+  deleteUser(idUser: string){
+    const fullUrl = this.baseUrl + '/' + idUser
+    return this.http.delete(fullUrl)
+  }
+}

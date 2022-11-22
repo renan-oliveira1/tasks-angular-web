@@ -1,3 +1,36 @@
+
 <app-nav></app-nav>
+<div class="container has-text-centered">
+    <h1 class="title">Boards</h1>
+</div>
+
+<div class="container mt-5 main">
+    <div class="columns">
+        <div class="column is-2"></div>
+        <div class="column is-4">
+            <form [formGroup]="boardForm" (submit)="submit()">
+                <div class="field">
+                    <div class="control">
+                        <input class="input is-rounded" type="text" placeholder="Trabalho TC2" formControlName="name" required />
+                    </div>
+                    </div>
+                <div class="field has-text-centered mt-5">
+                    <div class="control">
+                        <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="column is-4">
+            <div class="box content" *ngFor="let board of boards" (click)="viewBoard(board.id)">
+                <article class="post has-text-centered">
+                    <h4>{{board.name}}</h4>
+                </article>
+            </div>
+        </div>
+        <div class="column is-2"></div>
+    </div>
+</div>
+
 
 <app-footer></app-footer>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,7 @@ export class AuthService {
 
   private baseUrl = 'http://localhost:3000/user'
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(email: string, password: string){
     let body = {
@@ -51,6 +52,12 @@ export class AuthService {
   isLoggedIn(): boolean{
     if(sessionStorage.getItem('token')) return true
     return false
+  }
+
+  verifyIsLoggedRedirect(){
+    if(!this.isLoggedIn()){
+      this.router.navigate(['login'])
+    }
   }
 
 
