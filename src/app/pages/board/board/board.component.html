@@ -48,14 +48,20 @@
                                         <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
                                       </header>
                                       <section class="modal-card-body">
-                                        {{ selectedTask.description }}
+                                        <div [innerHTML]="selectedTask.description | climaDeCopa"></div>
                                       </section>
                                       <footer class="modal-card-foot has-background-warning"></footer>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="field checkbox-right">
+                            </div>                            
+                            <div class="field checkbox-right">                                
                                 <input type="checkbox" (click)="completeTask(task.id)">
+                                <span class="icon has-text-danger">
+                                    <i class="fa-solid fa-trash" (click)="deleteTask(task.id)"></i>
+                                </span>            
+                                <span class="icon has-text-link">
+                                    <i class="fa-solid fa-pen-to-square" (click)="showForm(task)"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -78,7 +84,7 @@
                                         <h4 class="modal-card-title">{{ selectedDoneTask.name }}</h4>
                                       </header>
                                       <section class="modal-card-body">
-                                        {{ selectedDoneTask.description }}
+                                        <div [innerHTML]="selectedDoneTask.description | climaDeCopa"></div>
                                       </section>
                                       <footer class="modal-card-foot has-background-success"></footer>
                                     </div>
@@ -152,5 +158,38 @@
     </div> -->
 </div>
 
+<!-- modal Update-->
+<div class="modal" [ngClass]="{ 'is-active' : isShowFormActive }" *ngIf="selectedTask">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title">Alterar dados da tarefa</h4>
+        </header>
+        <section class="modal-card-body">
+            <div>
+                <div class="field">
+                    <div class="control">
+                    <input class="input is-rounded" type="text" placeholder="Trabalho TC2" name="name" required [(ngModel)]="selectedTask.name"/>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Descrição" name="description" [(ngModel)]="selectedTask.description" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="field has-text-centered mt-5">
+                <div class="control">
+                    <div class="buttons">
+                        <button class="button is-link pl-5 pr-5" type="submit" (click)="showForm(selectedTask)" (click)="updateTask(selectedTask)">Salvar</button>
+                        <button class="button is-danger pl-5 pr-5" (click)="showForm(selectedTask)">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
 
 <app-footer></app-footer>

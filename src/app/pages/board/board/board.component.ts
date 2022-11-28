@@ -1,8 +1,10 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'bulma-toast';
 import { Board } from 'src/app/interfaces/Board';
+import { Task } from 'src/app/interfaces/Task';
 import { BoardService } from 'src/app/services/board/board.service';
 import { TasksService } from 'src/app/services/tasks/tasks.service';
 
@@ -16,17 +18,19 @@ export class BoardComponent implements OnInit {
   idFromUrl: string
   board: Board
   taskForm: FormGroup
-  isModalActive: boolean = false;
-  isModalDoneActive: boolean = false;
+  isModalActive: boolean = false
+  isModalDoneActive: boolean = false
   selectedDoneTask: Task
   selectedTask: Task
+  isShowFormActive: boolean = false
 
 
   constructor(
     private boardService: BoardService,
     private taskService: TasksService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {
@@ -83,6 +87,20 @@ export class BoardComponent implements OnInit {
     this.router.navigate([url])
   }
 
+  updateTask(task: Task){
+    this.taskService.update(task).subscribe({
+      next: () => {this.ngOnInit()},
+      error: () => {toast({ message: 'Erro ao atualizar a tarefa!!', type: 'is-danger' }); location.reload()}
+    })
+  }
+
+  deleteTask(id: string){
+    this.taskService.remove(id).subscribe({
+      next: () => {this.ngOnInit()},
+      error: () => {toast({ message: 'Erro ao deletar tarefa!!', type: 'is-danger' })}
+    })
+  }
+
   completeTask(id: string){
     this.taskService.updateStatus(id, true).subscribe({
       next: () => {this.ngOnInit()},
@@ -106,5 +124,10 @@ export class BoardComponent implements OnInit {
     this.isModalDoneActive = !this.isModalDoneActive
     this.selectedDoneTask = task
   }
-  
+
+  showForm(task: Task){
+    this.isShowFormActive = !this.isShowFormActive
+    this.selectedTask = task
+  }
+
 }

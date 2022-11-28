@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Task } from 'src/app/interfaces/Task';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +29,13 @@ export class TasksService {
     }
 
     return this.http.patch(this.baseUrl, json)
+  }
+
+  update(task: Task): Observable<any>{
+    return this.http.put(this.baseUrl, task)
+  }
+
+  remove(id: string){
+    return this.http.delete(this.baseUrl + "/" + id)
   }
 }

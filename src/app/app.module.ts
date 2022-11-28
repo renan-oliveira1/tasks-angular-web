@@ -14,6 +14,7 @@ import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { LoginInterceptor } from './services/interceptors/login.interceptor';
 import { BoardComponent } from './pages/board/board/board.component';
 import { ConfigureComponent } from './pages/configure/configure.component';
+import { ClimaDeCopaPipe } from './clima-de-copa.pipe';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ConfigureComponent } from './pages/configure/configure.component';
     TasksComponent,
     NotfoundComponent,
     BoardComponent,
-    ConfigureComponent
+    ConfigureComponent,
+    ClimaDeCopaPipe
   ],
   imports: [
     BrowserModule,
