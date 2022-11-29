@@ -7,7 +7,7 @@ import { User } from 'src/app/interfaces/User';
 })
 export class UserService {
 
-  private baseUrl = 'http://localhost:3000/users'
+  private baseUrl = 'https://task-repository.glitch.me/users'
 
   constructor(private http: HttpClient) { }
 

@@ -8,7 +8,7 @@ import { Task } from 'src/app/interfaces/Task';
 })
 export class TasksService {
 
-  private baseUrl = 'http://localhost:3000/tasks'
+  private baseUrl = 'https://task-repository.glitch.me/tasks'
 
   constructor(private http: HttpClient) { }
 

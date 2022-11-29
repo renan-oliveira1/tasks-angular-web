@@ -8,7 +8,7 @@ import { tap } from 'rxjs';
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:3000/user'
+  private baseUrl = 'https://task-repository.glitch.me/user'
 
   constructor(private http: HttpClient, private router: Router) { }
 
