@@ -11,7 +11,7 @@ export class ClimaDeCopaPipe implements PipeTransform {
   transform(value: string): any {
     var values = value;
     const splits = values.split('');
-    let result = ``;
+    let result = `<span><img src='/assets/img/brasil.png' alt='bandeira do Brasil' style='height: 15px'> </span>`;
     let count = 0;
     splits.forEach(next => {
       if(next && next !== " "){
@@ -25,6 +25,7 @@ export class ClimaDeCopaPipe implements PipeTransform {
         result += `${next}`;
       }
     });
+    result += `<span><img src='/assets/img/brasil.png' alt='bandeira do Brasil' style='height: 15px'> </span>`;
     return this.sanitized.bypassSecurityTrustHtml(result);
   }
 
