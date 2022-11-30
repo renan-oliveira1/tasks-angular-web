@@ -11,7 +11,7 @@ export class ClimaDeCopaPipe implements PipeTransform {
   transform(value: string): any {
     var values = value;
     const splits = values.split('');
-    let result = `<span><img src='/tasks-angular/assets/img/brasil.png' alt='bandeira do Brasil' style='height: 15px'> </span>`;
+    let result = `<span><img src='https://img2.gratispng.com/20180619/icy/kisspng-praline-flag-of-brazil-carmo-de-minas-coffee-choco-flag-brasil-5b28e712793193.6959498215294072504964.jpg' style='height: 15px'> </span>`;
     let count = 0;
     splits.forEach(next => {
       if(next && next !== " "){
@@ -25,7 +25,7 @@ export class ClimaDeCopaPipe implements PipeTransform {
         result += `${next}`;
       }
     });
-    result += `<span> <img src='/tasks-angular/assets/img/brasil.png' alt='bandeira do Brasil' style='height: 15px'> </span>`;
+    result += `<span> <img src='https://img2.gratispng.com/20180619/icy/kisspng-praline-flag-of-brazil-carmo-de-minas-coffee-choco-flag-brasil-5b28e712793193.6959498215294072504964.jpg' alt='bandeira do Brasil' style='height: 15px'> </span>`;
     return this.sanitized.bypassSecurityTrustHtml(result);
   }
 
