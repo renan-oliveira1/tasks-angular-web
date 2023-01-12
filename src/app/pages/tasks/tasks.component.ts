@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { toast } from 'bulma-toast';
-import { BoardService } from 'src/app/services/board/board.service';
+import { BoardService } from 'src/app/services/board/board/board.service';
 import {Board }from '../../interfaces/Board'
 
 @Component({
@@ -54,6 +54,11 @@ export class TasksComponent implements OnInit {
   registerBoard(){
     toast({ message: 'Board registrado com sucesso!!', type: 'is-success' })
     this.ngOnInit()
+  }
+
+  backPage(){
+    const url = 'home'
+    this.router.navigate([url])
   }
 
 }

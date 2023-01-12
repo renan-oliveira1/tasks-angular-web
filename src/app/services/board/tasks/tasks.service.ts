@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Task } from 'src/app/interfaces/Task';
+import { BoardTask } from 'src/app/interfaces/BoardTask';
+import { TaskStatus } from 'src/app/interfaces/TaskStatus';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
-  private baseUrl = 'https://task-repository.glitch.me/tasks'
+  private baseUrl = 'http://localhost:3000/board-tasks'
 
   constructor(private http: HttpClient) { }
 
@@ -19,19 +20,20 @@ export class TasksService {
       board: idBoard
     }
 
-    return this.http.post<Task>(this.baseUrl, sendJson)
+    return this.http.post<BoardTask>(this.baseUrl, sendJson)
   }
 
-  updateStatus(id: string, complete: boolean){
+  updateStatus(id: string, taskStatus: TaskStatus){
     const json = {
       id: id,
-      complete: complete
+      status: taskStatus
     }
+    console.log(json)
 
     return this.http.patch(this.baseUrl, json)
   }
 
-  update(task: Task): Observable<any>{
+  update(task: BoardTask): Observable<any>{
     return this.http.put(this.baseUrl, task)
   }
 

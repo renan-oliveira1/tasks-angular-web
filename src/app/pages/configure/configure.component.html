@@ -1,39 +1,49 @@
 <app-nav></app-nav>
-<div class="container mt-3" *ngIf="board">
-    <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
-    <h1 class="title has-text-centered ">Configure - {{board.name}}</h1>
-</div>
-<div class="container mt-5 mb-5 main" *ngIf="board">
-    <div class="columns is-multiline is-centered">
+<div class="hero is-fullheight is-transparent">
 
-
-        <div class="column">
-            <article class="message is-info">
-                <div class="message-header ">Usuarios do Board</div>
-                <div *ngFor="let user of board.users">
-                    <div class="message-body">
-                        <div class="box is-flex is-align-items-center">
-                            <p>{{user.username}} ({{user.email}})</p>
-                            <button *ngIf="board.users.length > 1" class="button is-danger button-right" (click)="removeUser(user.id)">Remover</button>
-                        </div>
-                    </div>
-                </div>
-            </article>
+    <div>
+        <div class="container mt-3" *ngIf="board">
+            <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
+            <h1 class="title has-text-centered ">Configure - {{board.name}}</h1>
         </div>
-        <div class="column">
-            <article class="message is-dark">
-                <div class="message-header">Usuarios</div>
-                <div *ngFor="let user of usersNotInBoard">
-                    <div class="message-body has-align-centered">
-                        <div class="box is-flex is-align-items-center">
-                            {{user.username}} ({{user.email}})                            
-                            <button class="button is-link button-right" (click)="addUserBoard(user.id)">Adicionar</button>
+        <div class="container mt-5 mb-5 main " *ngIf="board">
+            <div class="columns is-multiline is-centered">
+        
+        
+                <div class="column">
+                    <article class="message is-info">
+                        <div class="message-header ">Usuarios do Board</div>
+                        <div *ngFor="let user of board.users">
+                            <div class="message-body">
+                                <div class="box is-flex is-align-items-center">
+                                    <p>{{user.username}} ({{user.email}})</p>
+                                    <button *ngIf="board.users.length > 1" class="button is-danger button-right" (click)="removeUser(user.id)">Remover</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
-
-            </article>
+                <div class="column">
+                    <article class="message is-dark">
+                        <div class="message-header">Usuarios</div>
+                        <div *ngFor="let user of usersNotInBoard">
+                            <div class="message-body has-align-centered">
+                                <div class="box is-flex is-align-items-center">
+                                    {{user.username}} ({{user.email}})                            
+                                    <button class="button is-link button-right" (click)="addUserBoard(user.id)">Adicionar</button>
+                                </div>
+                            </div>
+                        </div>
+        
+                    </article>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="is-flex-align-items-flex-end mt-auto">
+        <app-footer></app-footer>
+    </div>
+
+
 </div>
-<app-footer></app-footer>

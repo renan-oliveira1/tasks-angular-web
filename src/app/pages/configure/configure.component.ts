@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'bulma-toast';
 import { Board } from 'src/app/interfaces/Board';
 import { User } from 'src/app/interfaces/User';
-import { BoardService } from 'src/app/services/board/board.service';
+import { BoardService } from 'src/app/services/board/board/board.service';
 import { UserService } from 'src/app/services/user/user.service';
 
 @Component({

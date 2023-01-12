@@ -4,9 +4,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toast } from 'bulma-toast';
 import { Board } from 'src/app/interfaces/Board';
-import { Task } from 'src/app/interfaces/Task';
-import { BoardService } from 'src/app/services/board/board.service';
-import { TasksService } from 'src/app/services/tasks/tasks.service';
+import { BoardTask } from 'src/app/interfaces/BoardTask';
+import { TaskStatus } from 'src/app/interfaces/TaskStatus';
+import { BoardService } from 'src/app/services/board/board/board.service';
+import { TasksService } from 'src/app/services/board/tasks/tasks.service';
 
 @Component({
   selector: 'app-board',
@@ -17,33 +18,38 @@ export class BoardComponent implements OnInit {
 
   idFromUrl: string
   board: Board
-  taskForm: FormGroup
+  taskForm = {
+    name: '',
+    description: ''
+ }
+  
   isModalActive: boolean = false
+  isModalStartedActive: boolean = false
   isModalDoneActive: boolean = false
-  selectedDoneTask: Task
-  selectedTask: Task
-  isShowFormActive: boolean = false
+  selectedTask = {
+     id: '',
+     name: '',
+     description: ''
+  }
+  isShowFormUpdateActive: boolean = false
+  isShowFormCreateActive: boolean = false
+
+  unassignedStatus = TaskStatus.UNASSIGNED
+  startedStatus = TaskStatus.STARTED
+  completedStatus = TaskStatus.COMPLETED
 
 
   constructor(
     private boardService: BoardService,
     private taskService: TasksService,
     private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {
     this.loadBoard()
-    this.loadForm()
   }
 
-  loadForm(){
-    this.taskForm = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      description: new FormControl(null, [Validators.required])
-    })
-  }
 
   loadIdFromUrl(){
     this.idFromUrl = this.activatedRoute.snapshot.paramMap.get('id')
@@ -61,13 +67,14 @@ export class BoardComponent implements OnInit {
   }
 
   submit(){
-    if(this.taskForm.valid){
-      const name = this.taskForm.get('name').value
-      const description = this.taskForm.get('description').value
+    if(this.taskForm.name && this.taskForm.description){
+      console.log(!this.taskForm.name)
+      const{ name, description} = this.taskForm
       this.taskService.saveTask(name, description, this.board.id)
         .subscribe({
           next: () => {
             toast({ message: 'Task registrada com sucesso!!', type: 'is-success' }),
+            this.isShowFormCreateActive = false
             this.ngOnInit()
           },
           error: () => {toast({ message: 'Erro ao mandar task!!', type: 'is-danger' })}
@@ -87,7 +94,7 @@ export class BoardComponent implements OnInit {
     this.router.navigate([url])
   }
 
-  updateTask(task: Task){
+  updateTask(task: BoardTask){
     this.taskService.update(task).subscribe({
       next: () => {this.ngOnInit()},
       error: () => {toast({ message: 'Erro ao atualizar a tarefa!!', type: 'is-danger' }); location.reload()}
@@ -101,32 +108,34 @@ export class BoardComponent implements OnInit {
     })
   }
 
-  completeTask(id: string){
-    this.taskService.updateStatus(id, true).subscribe({
+  updateStatusTask(id: string, taskStatus: TaskStatus){
+    this.taskService.updateStatus(id, taskStatus).subscribe({
       next: () => {this.ngOnInit()},
       error: () => {toast({ message: 'Erro ao completar tarefa!!', type: 'is-danger' })}
     })
   }
 
-  undoTask(id: string){
-    this.taskService.updateStatus(id, false).subscribe({
-      next: () => {this.ngOnInit()},
-      error: () => {toast({ message: 'Erro ao desfazer tarefa!!', type: 'is-danger' })}
-    })
-  }
-
-  toggleModal(task: Task){
+  toggleModal(task: BoardTask){
     this.isModalActive = !this.isModalActive
     this.selectedTask = task
   }
 
-  toggleModalDone(task: Task){
-    this.isModalDoneActive = !this.isModalDoneActive
-    this.selectedDoneTask = task
+  toggleStartedModal(task: BoardTask){
+    this.isModalStartedActive = !this.isModalStartedActive
+    this.selectedTask = task
   }
 
-  showForm(task: Task){
-    this.isShowFormActive = !this.isShowFormActive
+  toggleModalDone(task: BoardTask){
+    this.isModalDoneActive = !this.isModalDoneActive
+    this.selectedTask = task
+  }
+
+  showFormCreate(){
+    this.isShowFormCreateActive = !this.isShowFormCreateActive
+  }
+
+  showFormUpdate(task: BoardTask){
+    this.isShowFormUpdateActive = !this.isShowFormUpdateActive
     this.selectedTask = task
   }
 

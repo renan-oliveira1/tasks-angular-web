@@ -1,0 +1,57 @@
+<app-nav></app-nav>
+<div class="hero is-fullheight is-transparent">
+
+    <div>
+        <div class="container mt-3">
+            <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
+            <h1 class="title has-text-centered">Tasks</h1>
+        </div>
+        
+        <div class="container mt-5 mb-5 main">
+            <div class="columns">
+                <div class="column is-3"></div>
+                <div class="column is-6">
+                    <article class="message is-success">
+                        <div class="message-header ">A FAZER</div>
+                        <div *ngFor="let task of tasks">
+                            <div class="message-body has-align-centered" *ngIf="task.complete === true">
+                                <div class="box is-flex is-align-items-center">
+                                    <div (click)="toggleModal(task)" class="mouseChange">
+                                        <p>{{task.name}} - {{task.date | date:'medium'}}</p>
+                                        
+                                            <!-- modal description of a task -->
+                                            <div class="modal" [ngClass]="{ 'is-active' : isModalActive }" *ngIf="selectedTask">
+                                                <div class="modal-background"></div>
+                                                <div class="modal-card">
+                                                <header class="modal-card-head has-background-success">
+                                                    <h4 class="modal-card-title">{{ selectedTask.name }} - {{task.date | date:'medium'}}</h4>
+                                                </header>
+                                                <section class="modal-card-body">
+                                                    <div [innerHTML]="selectedTask.description"></div>
+                                                </section>
+                                                <footer class="modal-card-foot has-background-success"></footer>
+                                                </div>
+                                            </div>
+        
+                                    </div>                            
+                                    <div class="field checkbox-right">
+                                        <span class="icon has-text-danger">
+                                            <i class="fa-solid fa-trash" (click)="deleteTask(task.id)"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="is-flex-align-items-flex-end mt-auto">
+        <app-footer></app-footer>
+    </div>
+
+
+</div>
+

@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
 
   verifyIfLogged(){
     if(this.authService.isLoggedIn()){
-      this.router.navigate(['boards'])
+      this.router.navigate(['home'])
     }
   }
 
@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit {
 
   doLogin(){
     toast({ message: 'Preencha os campos válidos!!', type: 'is-success' })
-    this.router.navigate(['boards'])
+    this.router.navigate(['home'])
   }
 
   backLoginPage(){

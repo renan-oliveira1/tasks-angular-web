@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   verifyIfLogged(){
     if(this.authService.isLoggedIn()){
-      this.router.navigate(['boards'])
+      this.router.navigate(['home'])
     }
   }
 
@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
 
   doLogin(){
     toast({ message: 'Login feito com sucesso!!', type: 'is-success' })
-    this.router.navigate(['boards'])
+    this.router.navigate(['home'])
   }
 
 }

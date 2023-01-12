@@ -1,9 +1,9 @@
-import { Task } from "./Task"
+import { BoardTask } from "./BoardTask"
 import { User } from "./User"
 
 export interface Board{
     id: string
     name: string
-    tasks: Task[]
+    tasks: BoardTask[]
     users: User[]
 }

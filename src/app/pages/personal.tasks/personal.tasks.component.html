@@ -1,0 +1,149 @@
+<app-nav></app-nav>
+<div class="hero is-fullheight is-transparent">
+
+    <div>
+        <div class="container mt-3">
+            <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
+            <h1 class="title has-text-centered">Tasks</h1>
+        </div>
+        
+        <div class="container mt-5 mb-5 main">
+            <div class="columns">
+                <div class="column is-2"></div>
+                <div class="column is-3">
+                    <div class="box">
+                        <form [formGroup]="taskForm" (submit)="submit()">
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" placeholder="Nome Task" formControlName="name" required />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <textarea class="textarea" placeholder="Descrição" rows="5" formControlName="description"></textarea>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-rounded" type="date" formControlName="date" required />
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="control">
+                                    <input class="input is-rounded" type="time" formControlName="time" required />
+                                </div>
+                            </div>
+                            <div class="field has-text-centered mt-5">
+                                <div class="control">
+                                    <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="field has-text-centered mt-5">
+                        <div class="control">
+                            <div class="buttons">
+                                <button class="button is-success pl-5 pr-5" (click)="showCompletedTasks()">Tarefas Concluidas</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="column is-5">
+                    <article class="message is-info">
+                        <div class="message-header ">A FAZER</div>
+                        <div *ngFor="let task of tasks">
+                            <div class="message-body has-align-centered" *ngIf="task.complete === false">
+                                <div class="box is-flex is-align-items-center">
+                                    <div (click)="toggleModal(task)" class="mouseChange">
+                                        <p>{{task.name}} - {{task.date | date:'medium'}}</p>
+                                        
+                                            <!-- modal description of a task -->
+                                            <div class="modal" [ngClass]="{ 'is-active' : isModalActive }" *ngIf="selectedTask">
+                                                <div class="modal-background"></div>
+                                                <div class="modal-card">
+                                                <header class="modal-card-head has-background-info">
+                                                    <h4 class="modal-card-title">{{ selectedTask.name }} - {{task.date | date:'medium'}}</h4>
+                                                </header>
+                                                <section class="modal-card-body">
+                                                    <div [innerHTML]="selectedTask.description"></div>
+                                                </section>
+                                                <footer class="modal-card-foot has-background-info"></footer>
+                                                </div>
+                                            </div>
+        
+                                    </div>                            
+                                    <div class="field checkbox-right">                                
+                                        <input type="checkbox" (click)="updateStatusTask(task.id)">
+                                        <span class="icon has-text-danger">
+                                            <i class="fa-solid fa-trash" (click)="deleteTask(task.id)"></i>
+                                        </span>            
+                                        <span class="icon has-text-link">
+                                            <i class="fa-solid fa-pen-to-square" (click)="showFormUpdate(task)"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- modal Update-->
+<div class="modal" [ngClass]="{ 'is-active' : isShowFormUpdateActive }" *ngIf="selectedTask">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title">Alterar dados da tarefa</h4>
+        </header>
+        <section class="modal-card-body">
+            <div>
+                <form [formGroup]="taskFormHelper" (submit)="updateTask()">
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-rounded" type="text" placeholder="Nome Task" formControlName="name" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Descrição" rows="5" formControlName="description"></textarea>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-rounded" type="date" formControlName="date" required />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-rounded" type="time" formControlName="time" required />
+                        </div>
+                    </div>
+                    <div class="field has-text-centered mt-5">
+                        <div class="control">
+                            <button class="button is-link pl-5 pr-5" type="submit">Editar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="field has-text-centered mt-5">
+                <div class="control">
+                    <div class="buttons">
+                        <button class="button is-danger pl-5 pr-5" (click)="showFormUpdate(selectedTask)">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+</div>
+
+    <div class="is-flex-align-items-flex-end mt-auto">
+        <app-footer></app-footer>
+    </div>
+
+
+</div>

@@ -2,65 +2,89 @@
 <div class="container mt-3" *ngIf="board">
     <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
     <h1 class="title has-text-centered ">Board - {{board.name}}</h1>
+    <div class="has-text-centered">
+        <button class="button is-rounded has-text-white" (click)="showFormCreate()">
+            Cadastrar Task
+        </button>
+        <button class="button is-rounded has-text-white" (click)="configureBoard()">
+            Configurar Board
+        </button>
+    </div>
 </div>
 
 <div class="container mt-5 mb-5 main">
 
     <div class="columns" *ngIf="board">
-        <div class="column is-3">
-            <div class="box">
-                <h4 class="title is-4 mt-2 has-text-centered">Adicionar tarefa</h4>
-                <form [formGroup]="taskForm" (submit)="submit()">
-                    <div class="field">
-                        <div class="control">
-                        <input class="input is-rounded" type="text" placeholder="Trabalho TC2" formControlName="name" required />
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <textarea class="textarea" placeholder="Descrição" formControlName="description"></textarea>
-                        </div>
-                    </div>
-                    <div class="field has-text-centered mt-5">
-                        <div class="control">
-                            <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <button class="button is-rounded has-text-white" (click)="configureBoard()">
-                Configurar Board
-            </button>
-        </div>
-
         <div class="column">
             <article class="message is-warning">
                 <div class="message-header ">A FAZER</div>
                 <div *ngFor="let task of board.tasks">
-                    <div class="message-body has-align-centered" *ngIf="!task.complete">
+                    <div class="message-body has-align-centered" *ngIf="task.status === unassignedStatus">
                         <div class="box is-flex is-align-items-center">
                             <div (click)="toggleModal(task)" class="mouseChange">
                                 <p>{{task.name}}</p>
-                                <div class="modal" [ngClass]="{ 'is-active' : isModalActive }" *ngIf="selectedTask">
-                                    <div class="modal-background"></div>
-                                    <div class="modal-card">
-                                      <header class="modal-card-head has-background-warning">
-                                        <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
-                                      </header>
-                                      <section class="modal-card-body">
-                                        <div [innerHTML]="selectedTask.description | climaDeCopa"></div>
-                                      </section>
-                                      <footer class="modal-card-foot has-background-warning"></footer>
+
+                                    <!-- modal description of a task -->
+                                    <div class="modal" [ngClass]="{ 'is-active' : isModalActive }" *ngIf="selectedTask">
+                                        <div class="modal-background"></div>
+                                        <div class="modal-card">
+                                        <header class="modal-card-head has-background-warning">
+                                            <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <div [innerHTML]="selectedTask.description"></div>
+                                        </section>
+                                        <footer class="modal-card-foot has-background-warning"></footer>
+                                        </div>
                                     </div>
-                                </div>
+
                             </div>                            
                             <div class="field checkbox-right">                                
-                                <input type="checkbox" (click)="completeTask(task.id)">
+                                <input type="checkbox" (click)="updateStatusTask(task.id, startedStatus)">
                                 <span class="icon has-text-danger">
                                     <i class="fa-solid fa-trash" (click)="deleteTask(task.id)"></i>
                                 </span>            
                                 <span class="icon has-text-link">
-                                    <i class="fa-solid fa-pen-to-square" (click)="showForm(task)"></i>
+                                    <i class="fa-solid fa-pen-to-square" (click)="showFormUpdate(task)"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div class="column">
+            <article class="message is-primary">
+                <div class="message-header ">EM ANDAMENTO</div>
+                <div *ngFor="let task of board.tasks">
+                    <div class="message-body has-align-centered" *ngIf="task.status === startedStatus">
+                        <div class="box is-flex is-align-items-center">
+                            <div (click)="toggleStartedModal(task)" class="mouseChange">
+                                <p>{{task.name}}</p>
+                                
+                                    <!-- modal description of a task -->
+                                    <div class="modal" [ngClass]="{ 'is-active' : isModalStartedActive }" *ngIf="selectedTask">
+                                        <div class="modal-background"></div>
+                                        <div class="modal-card">
+                                        <header class="modal-card-head has-background-primary">
+                                            <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <div [innerHTML]="selectedTask.description"></div>
+                                        </section>
+                                        <footer class="modal-card-foot has-background-primary"></footer>
+                                        </div>
+                                    </div>
+
+                            </div>                            
+                            <div class="field checkbox-right">                                
+                                <input type="checkbox" (click)="updateStatusTask(task.id, completedStatus)">
+                                <span class="icon has-text-danger">
+                                    <i class="fa-solid fa-trash" (click)="deleteTask(task.id)"></i>
+                                </span>            
+                                <span class="icon has-text-link">
+                                    <i class="fa-solid fa-pen-to-square" (click)="showFormUpdate(task)"></i>
                                 </span>
                             </div>
                         </div>
@@ -73,93 +97,74 @@
             <article class="message is-success">
                 <div class="message-header">COMPLETOS</div>
                 <div *ngFor="let task of board.tasks">
-                    <div class="message-body has-align-centered" *ngIf="task.complete">
-                        <div class="box is-flex is-align-items-center" *ngIf="task.complete">
+                    <div class="message-body has-align-centered"  *ngIf="task.status === completedStatus">
+                        <div class="box is-flex is-align-items-center">
                             <div (click)="toggleModalDone(task)" class="mouseChange" >
                                 <p>{{task.name}}</p>
-                                <div class="modal" [ngClass]="{ 'is-active' : isModalDoneActive }" *ngIf="selectedDoneTask">
-                                    <div class="modal-background"></div>
-                                    <div class="modal-card">
-                                      <header class="modal-card-head has-background-success">
-                                        <h4 class="modal-card-title">{{ selectedDoneTask.name }}</h4>
-                                      </header>
-                                      <section class="modal-card-body">
-                                        <div [innerHTML]="selectedDoneTask.description | climaDeCopa"></div>
-                                      </section>
-                                      <footer class="modal-card-foot has-background-success"></footer>
+
+                                    <!-- modal description of a task -->
+                                    <div class="modal" [ngClass]="{ 'is-active' : isModalDoneActive }" *ngIf="selectedTask">
+                                        <div class="modal-background"></div>
+                                        <div class="modal-card">
+                                        <header class="modal-card-head has-background-success">
+                                            <h4 class="modal-card-title">{{ selectedTask.name }}</h4>
+                                        </header>
+                                        <section class="modal-card-body">
+                                            <div [innerHTML]="selectedTask.description"></div>
+                                        </section>
+                                        <footer class="modal-card-foot has-background-success"></footer>
+                                        </div>
                                     </div>
-                            </div>
+
                             </div>
                             <div class="field checkbox-right">
-                                <input type="checkbox" (click)="undoTask(task.id)" checked>
+                                <input type="checkbox" (click)="updateStatusTask(task.id, unassignedStatus)" checked>
                             </div>
                         </div>
                     </div>
                 </div>
             </article>
         </div>
-
     </div>
+</div>
 
-    <!-- <i class="fa-solid fa-circle-chevron-left fa-2xl" (click)="backPage()"></i>
-    <h3 class="title is-3 mt-2 has-text-centered">{{board.name}}</h3>
-    <div class="columns is-multiline is-centered">
-        <div class=" column is-3">
-            <div class="box">
-                <h4 class="title is-4 mt-2 has-text-centered">Adicionar tarefa</h4>
-            <form [formGroup]="taskForm" (submit)="submit()">
+<!-- modal Create Task-->
+<div class="modal" [ngClass]="{ 'is-active' : isShowFormCreateActive }">
+    <div class="modal-background is-link"></div>
+    <div class="modal-content is-link">
+        <header class="modal-card-head">
+            <h4 class="modal-card-title">Criar Task</h4>
+        </header>
+        <section class="modal-card-body">
+            <div>
                 <div class="field">
                     <div class="control">
-                      <input class="input is-rounded" type="text" placeholder="Trabalho TC2" formControlName="name" required />
+                    <input class="input is-rounded" type="text" placeholder="Titulo Tarefa" name="name" required [(ngModel)]="taskForm.name"/>
                     </div>
                 </div>
                 <div class="field">
                     <div class="control">
-                        <textarea class="textarea" placeholder="Descrição" formControlName="description"></textarea>
+                        <textarea class="textarea" placeholder="Descrição" name="description" required [(ngModel)]="taskForm.description"></textarea>
                     </div>
                 </div>
-                <div class="field has-text-centered mt-5">
-                    <div class="control">
-                      <button class="button is-link pl-5 pr-5" type="submit">Criar</button>
-                    </div>
-                </div>
-            </form>
             </div>
-            <button class="button is-rounded has-text-white" (click)="configureBoard()">
-                Configurar Board
-            </button>
-        </div>
-
-
-        <div class="column">
-            <article class="message is-warning">
-                <div class="message-header ">A FAZER</div>
-                <div *ngFor="let task of board.tasks">
-                    <div class="message-body" *ngIf="!task.complete">
-                        <div class="box has-text-centered">
-                            <p>{{task.name}}</p>
-                        </div>
+        </section>
+        <footer class="modal-card-foot">
+            <div class="field has-text-centered mt-5">
+                <div class="control">
+                    <div class="buttons">
+                        <button class="button is-link pl-5 pr-5" type="submit" (click)="submit()">Salvar</button>
+                        <button class="button is-danger pl-5 pr-5" (click)="showFormCreate()">Cancelar</button>
                     </div>
                 </div>
-            </article>
-        </div>
-        <div class="column">
-            <article class="message is-success">
-                <div class="message-header">COMPLETOS</div>
-                <div *ngFor="let task of board.tasks">
-                    <div class="message-body" *ngIf="task.complete">
-                        <div class="box has-text-centered" *ngIf="task.complete">
-                            <p>{{task.name}}</p>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        </div>
-    </div> -->
+            </div>
+        </footer>
+    </div>
+    <button class="modal-close is-large" aria-label="close"></button>
 </div>
 
 <!-- modal Update-->
-<div class="modal" [ngClass]="{ 'is-active' : isShowFormActive }" *ngIf="selectedTask">
+<div class="modal" [ngClass]="{ 'is-active' : isShowFormUpdateActive }" *ngIf="selectedTask">
     <div class="modal-background"></div>
     <div class="modal-content">
         <header class="modal-card-head">
@@ -183,13 +188,14 @@
             <div class="field has-text-centered mt-5">
                 <div class="control">
                     <div class="buttons">
-                        <button class="button is-link pl-5 pr-5" type="submit" (click)="showForm(selectedTask)" (click)="updateTask(selectedTask)">Salvar</button>
-                        <button class="button is-danger pl-5 pr-5" (click)="showForm(selectedTask)">Cancelar</button>
+                        <button class="button is-link pl-5 pr-5" type="submit" (click)="showFormUpdate(selectedTask)" (click)="updateTask(selectedTask)">Salvar</button>
+                        <button class="button is-danger pl-5 pr-5" (click)="showFormUpdate(selectedTask)">Cancelar</button>
                     </div>
                 </div>
             </div>
         </footer>
     </div>
 </div>
+
 
 <app-footer></app-footer>

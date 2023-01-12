@@ -1,0 +1,21 @@
+button{
+    background: #512cb7;
+}
+
+.main {
+    display: flex;
+    min-height: 55vh;
+    flex-direction: column;
+}
+
+app-footer {
+    max-height: auto;
+}
+
+.checkbox-right{
+    margin-left: auto;
+}
+
+.mouseChange{
+    cursor: help;
+}

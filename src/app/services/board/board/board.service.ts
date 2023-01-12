@@ -7,7 +7,7 @@ import { Board } from 'src/app/interfaces/Board';
 })
 export class BoardService {
 
-  private baseUrl = 'https://task-repository.glitch.me/boards'
+  private baseUrl = 'http://localhost:3000/boards'
 
   constructor(private http: HttpClient) { }
 

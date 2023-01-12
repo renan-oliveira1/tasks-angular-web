@@ -15,6 +15,9 @@ import { LoginInterceptor } from './services/interceptors/login.interceptor';
 import { BoardComponent } from './pages/board/board.component';
 import { ConfigureComponent } from './pages/configure/configure.component';
 import { ClimaDeCopaPipe } from './clima-de-copa.pipe';
+import { HomeComponent } from './pages/home/home.component';
+import { PersonalTasksComponent } from './pages/personal.tasks/personal.tasks.component';
+import { CompletedTasksComponent } from './pages/completed.tasks/completed.tasks.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,10 @@ import { ClimaDeCopaPipe } from './clima-de-copa.pipe';
     NotfoundComponent,
     BoardComponent,
     ConfigureComponent,
-    ClimaDeCopaPipe
+    ClimaDeCopaPipe,
+    HomeComponent,
+    PersonalTasksComponent,
+    CompletedTasksComponent
   ],
   imports: [
     BrowserModule,
